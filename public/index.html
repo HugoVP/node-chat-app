@@ -7,6 +7,19 @@
   <title>Node Chat App</title>
 </head>
 <body>
-  <p>Welcome to Node Chat App | Docker Compose | Updated </p>
+  <p>Welcome to Node Chat App</p>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+  </script>
 </body>
 </html>
