@@ -14,19 +14,31 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   socket.emit('newMessage', {
-    from: 'test@test.test',
-    text: 'From backend',
-    createdAt: new Date(),
+    from: 'Admin',
+    text: 'Welcome to the Node Chat App!',
+    createdAt: new Date().getTime(),
   });
 
-  socket.on('createMessage', (message) => {
-    console.log('createMessage: ', message);
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New user joined',
+    createdAt: new Date().getTime(),
+  });
+
+  socket.on('createMessage', ({ from, text }) => {
+    console.log('createMessage: ', {from, text});
     
     io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
+      from,
+      text,
       createdAt: new Date().getTime(),
     });
+    
+    // socket.broadcast.emit('newMessage', {
+    //   from,
+    //   text,
+    //   createdAt: new Date().getTime(),
+    // });
   });
   
   socket.on('disconnect', () => {
