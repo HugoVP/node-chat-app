@@ -17,9 +17,10 @@ io.on('connection', (socket) => {
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to the Node Chat App'));
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', ({ from, text }) => {
+  socket.on('createMessage', ({ from, text }, callback) => {
     console.log('createMessage: ', {from, text});    
     io.emit('newMessage', generateMessage(from, text));
+    callback('This is from the Server');
   });
   
   socket.on('disconnect', () => {
