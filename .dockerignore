@@ -1,2 +1,13 @@
-.git/
+.DS_Store
+.git
+.gitignore
+.dockerignore
+Dockerfile*
+docker-compose*.yaml
+Makefile
+package-lock-json
+
+node_modules/
+k8s/
+nginx/
 .env

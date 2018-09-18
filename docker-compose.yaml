@@ -8,6 +8,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
+      - /app/.git
       - /app/node_modules
       - ./:/app
     environment:
@@ -17,6 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
+      - /app/.git
       - /app/node_modules
       - ./:/app
     command: ["npm", "run", "test-watch"]
