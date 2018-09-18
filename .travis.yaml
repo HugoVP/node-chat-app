@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t hugovp/node-chat-app:test -f Dockerfile.dev .
+script:
+  - docker run hugovp/node-chat-app npm run test -- --coverage
+# after_install:
+#   - docker build -t hugovp/node-chat-app:prod .
