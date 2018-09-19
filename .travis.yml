@@ -8,7 +8,7 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: "$HEROKU_AUTH_TOKEN"
+    secure: $HEROKU_AUTH_TOKEN
   app: nameless-coast-48197
   on:
     repo: HugoVP/node-chat-app
