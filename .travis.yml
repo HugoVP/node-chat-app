@@ -1,9 +1,14 @@
 sudo: required
 services:
-  - docker
+- docker
 before_install:
-  - docker build -t hugovp/node-chat-app:test -f Dockerfile.dev .
+- docker build -t hugovp/node-chat-app:test -f Dockerfile.dev .
 script:
-  - docker run hugovp/node-chat-app:test npm run test -- --coverage
-# after_install:
-#   - docker build -t hugovp/node-chat-app:prod .
+- docker run hugovp/node-chat-app:test npm run test -- --coverage
+deploy:
+  provider: heroku
+  api_key:
+    secure: "$HEROKU_AUTH_TOKEN"
+  app: nameless-coast-48197
+  on:
+    repo: HugoVP/node-chat-app
