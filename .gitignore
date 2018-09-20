@@ -2,5 +2,5 @@ node_modules/
 .env
 package-lock.json
 k8s/
-Makefile
+Makefile.*
 .DS_Store
