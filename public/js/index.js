@@ -8,24 +8,28 @@ socket.on('disconnect', function () {
   console.log('Disconnected from server');
 });
 
+const messagesList = $('#messages');
+
 socket.on('newMessage', function (message) {
-  console.log('newMessage: ', message);
-  $('#messages').append($(`<li>${message.from}: ${message.text}</li>`));
+  const formattedTime = moment(message.createdAt).format('h:mm a');
+  const li = $('<li></li>');
+  li.text(`${message.from} ${formattedTime}: ${message.text}`);
+  messagesList.append(li);
 });
 
-socket.on('newLocationMessage', function ({ from, url }) {
-  console.log('newLocationMessage: ', from, url);
+socket.on('newLocationMessage', function (message) {
+  const formattedTime = moment(message.createdAt).format('h:mm a');
   
   const li = $('<li></li>');
-  li.text(`${from}: `);
+  li.text(`${message.from} ${formattedTime}: `);
   
   const a = $('<a></a>');
   a.attr('target', '_blank');
-  a.attr('href', url);
+  a.attr('href', message.url);
   a.text('My current location');
   
   li.append(a);
-  $('#messages').append(li);
+  messagesList.append(li);
 });
 
 const messageTextbox = $('[name=message]');

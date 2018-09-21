@@ -4,10 +4,13 @@
 .dockerignore
 Dockerfile*
 docker-compose*.yaml
-Makefile
+docker-compose*.yml
+Makefile*
 package-lock-json
+.travis.yml
 
 node_modules/
+playground/
 k8s/
 nginx/
 .env
