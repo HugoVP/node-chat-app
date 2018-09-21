@@ -1,5 +1,16 @@
 const socket = io();
 
+/* Form elements */
+const messagesList = $('#messages');
+const messageForm = $('#message-form');
+const messageTextbox = $('[name=message]');
+const locationButton = $('#send-location');
+
+/* Message templates */
+const messageTemplate = $('#message-template').html();
+const locationMessageTemplate = $('#location-message-template').html();
+
+/* Socket events */
 socket.on('connect', function () {
   console.log('Connected to server');
 });
@@ -7,9 +18,6 @@ socket.on('connect', function () {
 socket.on('disconnect', function () {
   console.log('Disconnected from server');
 });
-
-const messagesList = $('#messages');
-const messageTemplate = $('#message-template').html();
 
 socket.on('newMessage', function (message) {
   const formattedTime = moment(message.createdAt).format('h:mm a');
@@ -21,9 +29,8 @@ socket.on('newMessage', function (message) {
   });
 
   messagesList.append(html);
+  scrollToBottom();
 });
-
-const locationMessageTemplate = $('#location-message-template').html();
 
 socket.on('newLocationMessage', function (message) {
   const formattedTime = moment(message.createdAt).format('h:mm a');
@@ -35,11 +42,12 @@ socket.on('newLocationMessage', function (message) {
   });
 
   messagesList.append(html);
+  scrollToBottom();
 });
 
-const messageTextbox = $('[name=message]');
 
-$('#message-form').on('submit', function (event) {
+/* Form events */
+messageForm.on('submit', function (event) {
   event.preventDefault();
 
   socket.emit('createMessage', {
@@ -49,8 +57,6 @@ $('#message-form').on('submit', function (event) {
     messageTextbox.val('');
   });
 });
-
-const locationButton = $('#send-location');
 
 locationButton.on('click', function () {
   if (!navigator.geolocation) {
@@ -75,6 +81,20 @@ locationButton.on('click', function () {
       .removeAttr('disabled')
       .text('Send Location');
     
-      alert('Unable to fetch location');
+    alert('Unable to fetch location');
   });
 });
+
+/* Scrolling */
+function scrollToBottom() {
+  const clientHeight = messagesList.prop('clientHeight');
+  const scrollTop = messagesList.prop('scrollTop');
+  const scrollHeight = messagesList.prop('scrollHeight');
+  const newMessage = messagesList.children('li:last-child');
+  const newMessageHeight = newMessage.innerHeight();
+  const lastMessageHeight = newMessage.prev().innerHeight();
+
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    messagesList.scrollTop(scrollHeight);
+  }
+}
