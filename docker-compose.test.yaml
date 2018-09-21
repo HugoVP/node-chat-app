@@ -1,15 +1,11 @@
 version: "3"
 services:
-  api:
-    restart: on-failure
+  api-test:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    ports:
-      - ${PORT}:${PORT}
     volumes:
       - /app/.git
       - /app/node_modules
       - ./:/app
-    environment:
-      - PORT=${PORT}
+    command: ["npm", "run", "test-watch"]
